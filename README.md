@@ -6,7 +6,7 @@ This tutorial will walk you through provisioning some VMs on [GCP](https://cloud
 
 Walk through the initial [installation instructions](https://help.cmd.com/en/articles/3396542-initial-setup) and grab the [single server deployment url](https://help.cmd.com/en/articles/3396528-adding-a-new-server)
 
-The hostname may be different from the example seen here.
+The URL FQDN may be different from the sub2 example seen here.
 Generating the install URL will want a server name, give it something and then strip off the last segment of the URL.
 
 Example URL before stripping:
