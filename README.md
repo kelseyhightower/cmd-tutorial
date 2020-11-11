@@ -81,7 +81,7 @@ node-1  us-west1-c  e2-micro                   10.XXX.0.3   XX.XXX.XX.XXX  RUNNI
 
 ## Testing
 
-Once booted, Cmd should installed on each node, run an SSH command on them to generate some activity that will show up in the Cmd dashboard.
+Once booted, Cmd should be installed on each node, run an SSH command on them to generate some activity that will show up in the Cmd dashboard.
 
 ```
 for i in 0 1; do
