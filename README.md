@@ -2,6 +2,30 @@
 
 This tutorial will walk you through provisioning some VMs on [GCP](https://cloud.google.com) so you can kick the tires on [Cmd](https://cmd.com/) -- Track and Control Users in Production.
 
+## Setup CMD
+
+Walk through the initial [installation instructions](https://help.cmd.com/en/articles/3396542-initial-setup) and grab the [single server deployment url](https://help.cmd.com/en/articles/3396528-adding-a-new-server)
+
+The URL FQDN may be different from the sub2 example seen here.
+Generating the install URL will want a server name, give it something and then strip off the last segment of the URL.
+
+Example URL before stripping:
+
+```
+curl -s -f https://sub2.c-app.cmd.com:443/install/deadbeef1234567890/PRJ-999/abcdef= | sudo bash
+```
+
+Example URL after stripping:
+```
+curl -s -f https://sub2.c-app.cmd.com:443/install/deadbeef1234567890/PRJ-999/ | sudo bash
+```
+
+Write metadata.txt using the following template, be sure replace values with your Project ID (eg PRJ-999) and API key (eg abcdef123 - long random string)
+```
+b64_hostname=$(hostname | base64)
+curl -s -f https://sub2.c-app.cmd.com:443/install/deadbeef1234567890/PRJ-999/${b64_hostname} | sudo bash
+```
+
 ## Provisioning Infrastructure
 
 Create the `cmd-tutorial` network:
@@ -39,7 +63,8 @@ for i in 0 1; do
     --machine-type e2-micro \
     --scopes compute-rw,storage-ro,service-management,service-control,logging-write,monitoring \
     --network cmd-tutorial \
-    --tags cmd-tutorial
+    --tags cmd-tutorial \
+    --metadata-from-file=startup-script=metadata.txt
 done
 ```
 
@@ -54,13 +79,9 @@ node-0  us-west1-c  e2-micro                   10.XXX.0.2   XX.XX.XX.X     RUNNI
 node-1  us-west1-c  e2-micro                   10.XXX.0.3   XX.XXX.XX.XXX  RUNNING
 ```
 
-## Install
-
-Follow the Cmd [installation instructions](https://help.cmd.com/en/articles/3396542-initial-setup) for each node.
-
 ## Testing
 
-Once Cmd is installed on each node, run an SSH command on them to generate some activity that will show up in the Cmd dashboard.
+Once booted, Cmd should be installed on each node, run an SSH command on them to generate some activity that will show up in the Cmd dashboard.
 
 ```
 for i in 0 1; do
